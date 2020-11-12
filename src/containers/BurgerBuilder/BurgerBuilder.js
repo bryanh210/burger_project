@@ -84,7 +84,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        // alert('You continue!');
+        //The request is about to get sent
         this.setState ({
             loading: true
         })
@@ -102,14 +102,19 @@ class BurgerBuilder extends Component {
             },
             deliveryMethod: 'fastest'
         }
+        // .json for firebase
         axios.post('/orders.json', order)
             .then(res => {
                 this.setState({
+                    // The request is done loading, so we go back
                     loading: false,
+                    // set to false to close the modal
                     purchasing: false
                 })
             })
             .catch(error => this.setState({
+                // even if an error occurs, we want to stop loading
+                // we don't want the spinner to occur
                 loading: false,
                 purchasing: false
             }))
@@ -132,8 +137,8 @@ class BurgerBuilder extends Component {
         
         if(this.state.loading) {
             orderSummary = <Spinner />
-        }
-    
+        } 
+
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
